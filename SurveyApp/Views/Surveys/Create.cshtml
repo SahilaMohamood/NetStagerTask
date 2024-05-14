@@ -1,0 +1,58 @@
+﻿@model SurveyApp.Models.SurveyCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Survey";
+}
+
+<h2>Create Survey</h2>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Survey.Title" class="control-label"></label>
+        <input asp-for="Survey.Title" class="form-control" />
+        <span asp-validation-for="Survey.Title" class="text-danger"></span>
+    </div>
+
+    <h4>Questions</h4>
+    <div id="questions-container">
+        @for (int i = 0; i < Model.Questions.Count; i++)
+        {
+            <div class="form-group">
+                <label>Question</label>
+                <input type="text" asp-for="Questions[i].Text" class="form-control" />
+                <select asp-for="Questions[i].Type" class="form-control">
+                    <option value="0">Single Choice</option>
+                    <option value="1">Multiple Choice</option>
+                    <option value="2">Open Ended</option>
+                </select>
+            </div>
+        }
+    </div>
+
+    <button type="button" id="add-question" class="btn btn-secondary">Add Question</button>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#add-question').click(function () {
+                var questionIndex = $('#questions-container .form-group').length;
+                var questionHtml = `
+                            <div class="form-group">
+                                <label>Question</label>
+                                <input type="text" name="Questions[${questionIndex}].Text" class="form-control" />
+                                <select name="Questions[${questionIndex}].Type" class="form-control">
+                                    <option value="0">Single Choice</option>
+                                    <option value="1">Multiple Choice</option>
+                                    <option value="2">Open Ended</option>
+                                </select>
+                            </div>`;
+                $('#questions-container').append(questionHtml);
+            });
+        });
+    </script>
+}

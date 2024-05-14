@@ -1,0 +1,40 @@
+﻿@model SurveyApp.Models.SurveyResponseViewModel
+
+@{
+    ViewData["Title"] = "Take Survey";
+}
+
+<h2>@Model.SurveyTitle</h2>
+
+<form asp-action="Take">
+    <input type="hidden" asp-for="SurveyId" />
+
+    @foreach (var response in Model.Responses)
+    {
+        <div class="form-group">
+            <label>@response.QuestionText</label>
+            @switch (response.QuestionType)
+            {
+                case SurveyApp.Models.QuestionType.SingleChoice:
+                    <select asp-for="@response.Answer" class="form-control">
+                        <option value="">-- Select an answer --</option>
+                        <!-- Add options here -->
+                    </select>
+                    break;
+                case SurveyApp.Models.QuestionType.MultipleChoice:
+                    <!-- Add checkboxes here -->
+                    break;
+                case SurveyApp.Models.QuestionType.OpenEnded:
+                    <textarea asp-for="@response.Answer" class="form-control"></textarea>
+                    break;
+            }
+            <input type="hidden" asp-for="@response.QuestionId" />
+            <input type="hidden" asp-for="@response.QuestionText" />
+            <input type="hidden" asp-for="@response.QuestionType" />
+        </div>
+    }
+
+    <div class="form-group">
+        <input type="submit" value="Submit" class="btn btn-primary" />
+    </div>
+</form>

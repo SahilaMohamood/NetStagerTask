@@ -1,0 +1,25 @@
+﻿@model IEnumerable<SurveyApp.Models.Survey>
+
+<h2>Surveys</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>
+                    <a asp-action="Take" asp-route-id="@item.SurveyId">Take Survey</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create">Create New Survey</a>
